@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Protótipo - Definição de Problema</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f4f6f8;
+  }
+  h1, h2 {
+    color: #333;
+  }
+  .card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  textarea, input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+  }
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background: #2d7ff9;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  button:hover {
+    background: #1b5fd6;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+</style>
+</head>
 
+<body>
+
+<h1>Protótipo: Definição de Problema</h1>
+
+<div class="card">
+  <h2>1. Identificação de problemas</h2>
+  <p>Digite problemas que você observa no dia a dia:</p>
+  <input id="problemaInput" placeholder="Ex: dificuldade para organizar estudos">
+  <button onclick="adicionarProblema()">Adicionar problema</button>
+  <ul id="listaProblemas"></ul>
+</div>
+
+<div class="card">
+  <h2>2. Priorização dos problemas</h2>
+  <p>Para cada problema, dê notas de 1 a 5:</p>
+  <div id="tabela"></div>
+  <button onclick="gerarTabela()">Gerar tabela de avaliação</button>
+</div>
+
+<script>
+let problemas = [];
+
+function adicionarProblema() {
+  const input = document.getElementById("problemaInput");
+  if (input.value.trim() !== "") {
+    problemas.push(input.value);
+    atualizarLista();
+    input.value = "";
+  }
+}
+
+function atualizarLista() {
+  const lista = document.getElementById("listaProblemas");
+  lista.innerHTML = "";
+  problemas.forEach(p => {
+    const li = document.createElement("li");
+    li.textContent = p;
+    lista.appendChild(li);
+  });
+}
+
+function gerarTabela() {
+  const div = document.getElementById("tabela");
+
+  let html = `
+  <table>
+    <tr>
+      <th>Problema</th>
+      <th>Frequência (1-5)</th>
+      <th>Impacto (1-5)</th>
+      <th>Clareza (1-5)</th>
+      <th>Potencial App (1-5)</th>
+    </tr>
+  `;
+
+  problemas.forEach((p, i) => {
+    html += `
+    <tr>
+      <td>${p}</td>
+      <td><input type="number" min="1" max="5" id="f${i}"></td>
+      <td><input type="number" min="1" max="5" id="i${i}"></td>
+      <td><input type="number" min="1" max="5" id="c${i}"></td>
+      <td><input type="number" min="1" max="5" id="a${i}"></td>
+    </tr>
+    `;
+  });
+
+  html += "</table>";
+  div.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
